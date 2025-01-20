@@ -23,6 +23,7 @@ export default function Home() {
     setError("");
 
     try {
+      //@ts-ignore
       const res = await edgestore.publicFiles.upload({
         file,
         onProgressChange: (progress) => {
@@ -32,6 +33,7 @@ export default function Home() {
 
       setImageUrl(res.url);
     } catch (err) {
+      //@ts-ignore
       setError(err.message);
     } finally {
       setUploading(false);
