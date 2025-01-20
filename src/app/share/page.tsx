@@ -1,12 +1,17 @@
 // app/share/page.tsx
 import type { Metadata } from "next";
 
+// Correctly type the props according to Next.js 14
 interface Props {
-  searchParams: { url: string };
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
-export function generateMetadata({ searchParams }: Props): Metadata {
-  const imageUrl = searchParams.url;
+export async function generateMetadata({
+  searchParams,
+}: any): Promise<Metadata> {
+  const imageUrl = searchParams.url as string;
 
   return {
     title: "Image Share App",
@@ -25,8 +30,8 @@ export function generateMetadata({ searchParams }: Props): Metadata {
   };
 }
 
-export default function SharePage({ searchParams }: Props) {
-  const imageUrl = searchParams.url;
+export default function SharePage({ searchParams }: any) {
+  const imageUrl = searchParams.url as string;
 
   if (!imageUrl) {
     return <div>No image URL provided</div>;
