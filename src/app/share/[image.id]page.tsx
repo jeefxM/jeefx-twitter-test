@@ -6,11 +6,13 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const imageUrl = decodeURIComponent(params.imageId);
+  const { imageId } = params;
+  const imageUrl = decodeURIComponent(imageId);
 
   return {
     title: "Shared Image",
     description: "Check out this awesome image!",
+    metadataBase: new URL("https://jeefx-twitter-test.vercel.app"),
     openGraph: {
       title: "Shared Image",
       description: "Check out this awesome image!",
@@ -25,10 +27,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function SharePage() {
+export default function SharePage({ params }: Props) {
+  const imageUrl = decodeURIComponent(params.imageId);
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-2xl">Loading image...</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8">
+      <h1 className="text-2xl mb-8">Shared Image</h1>
+      <img
+        src={imageUrl}
+        alt="Shared content"
+        className="max-w-2xl rounded-lg shadow-lg"
+      />
     </div>
   );
 }

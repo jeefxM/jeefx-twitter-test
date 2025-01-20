@@ -1,5 +1,4 @@
 "use client";
-
 import { useEdgeStore } from "./lib/edgestore";
 import { useState } from "react";
 import { Upload } from "lucide-react";
@@ -34,6 +33,7 @@ export default function Home() {
       setImageUrl(res.url);
     } catch (err) {
       //@ts-ignore
+
       setError(err.message);
     } finally {
       setUploading(false);
