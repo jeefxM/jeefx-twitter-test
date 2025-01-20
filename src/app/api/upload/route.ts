@@ -32,6 +32,8 @@ export async function POST(request: Request) {
       throw new Error(data.error?.message || "Upload failed");
     }
 
+    console.log(data.data.url);
+
     return NextResponse.json({
       success: true,
       url: data.data.url,

@@ -45,9 +45,9 @@ export default function Home() {
   const handleShare = () => {
     if (!imageUrl) return;
 
-    // Remove https:// when adding to path
-    const urlWithoutProtocol = imageUrl.replace("https://", "");
-    const shareUrl = `https://jeefx-twitter-test.vercel.app/share/${urlWithoutProtocol}`;
+    const shareUrl = `https://jeefx-twitter-test.vercel.app/share?url=${encodeURIComponent(
+      imageUrl
+    )}`;
     const tweetText = "Check out this image!";
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       tweetText
