@@ -6,25 +6,39 @@ type Props = {
 };
 
 export function generateMetadata({ params }: Props): Metadata {
-  // Join all parts of the URL back together and add https:// back
   const fullImageUrl = "https://" + params.imageId.join("/");
   const imageUrl = decodeURIComponent(fullImageUrl);
 
   return {
     metadataBase: new URL("https://jeefx-twitter-test.vercel.app"),
-    title: "Image Share App",
-    description: "Share your images on Twitter",
-    twitter: {
-      card: "summary_large_image",
-      title: "Image Share App",
-      description: "Share your images on Twitter",
-      //@ts-ignore
-      image: imageUrl, // Changed from images array to single image
-    },
+    title: "Image hosted at ImgBB",
+    description: "Image hosted in ImgBB",
     openGraph: {
-      title: "Image Share App",
-      description: "Share your images on Twitter",
-      images: [imageUrl],
+      type: "article",
+      url: imageUrl,
+      title: "Image hosted at ImgBB",
+      siteName: "ImgBB",
+      description: "Image hosted in ImgBB",
+      images: [
+        {
+          url: imageUrl,
+          width: 731,
+          height: 623,
+        },
+      ],
+    },
+    //@ts-ignore
+    twitter: {
+      card: "photo",
+      title: "Image hosted at ImgBB",
+      description: "Image hosted in ImgBB",
+      site: "@imgbb_com",
+    },
+    alternates: {
+      types: {
+        "application/json+oembed": `${imageUrl}/oembed.json`,
+        "application/xml+oembed": `${imageUrl}/oembed.xml`,
+      },
     },
   };
 }

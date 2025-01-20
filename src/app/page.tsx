@@ -1,11 +1,9 @@
 "use client";
 
-import { useEdgeStore } from "./lib/edgestore";
 import { useState } from "react";
 import { Upload } from "lucide-react";
 
 export default function Home() {
-  const { edgestore } = useEdgeStore();
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
@@ -23,15 +21,19 @@ export default function Home() {
     setError("");
 
     try {
-      //@ts-ignore
-      const res = await edgestore.publicFiles.upload({
-        file,
-        onProgressChange: (progress) => {
-          console.log(progress);
-        },
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
       });
 
-      setImageUrl(res.url);
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error);
+
+      setImageUrl(data.url);
     } catch (err) {
       //@ts-ignore
       setError(err.message);
@@ -43,7 +45,7 @@ export default function Home() {
   const handleShare = () => {
     if (!imageUrl) return;
 
-    // Remove https:// before using it in the path
+    // Remove https:// when adding to path
     const urlWithoutProtocol = imageUrl.replace("https://", "");
     const shareUrl = `https://jeefx-twitter-test.vercel.app/share/${urlWithoutProtocol}`;
     const tweetText = "Check out this image!";
