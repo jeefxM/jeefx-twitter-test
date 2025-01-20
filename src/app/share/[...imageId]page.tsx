@@ -18,11 +18,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: "Check out this awesome image!",
       images: [imageUrl],
     },
+
     twitter: {
       card: "summary_large_image",
       title: "Shared Image",
       description: "Check out this awesome image!",
       images: [imageUrl],
+      //@ts-ignore
+      image: [imageUrl],
     },
   };
 }
