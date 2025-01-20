@@ -1,4 +1,5 @@
 "use client";
+
 import { useEdgeStore } from "./lib/edgestore";
 import { useState } from "react";
 import { Upload } from "lucide-react";
@@ -33,7 +34,6 @@ export default function Home() {
       setImageUrl(res.url);
     } catch (err) {
       //@ts-ignore
-
       setError(err.message);
     } finally {
       setUploading(false);
@@ -43,9 +43,9 @@ export default function Home() {
   const handleShare = () => {
     if (!imageUrl) return;
 
-    const shareUrl = `https://jeefx-twitter-test.vercel.app/share/${encodeURIComponent(
-      imageUrl
-    )}`;
+    // Remove https:// before using it in the path
+    const urlWithoutProtocol = imageUrl.replace("https://", "");
+    const shareUrl = `https://jeefx-twitter-test.vercel.app/share/${urlWithoutProtocol}`;
     const tweetText = "Check out this image!";
     const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       tweetText

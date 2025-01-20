@@ -1,38 +1,37 @@
-// app/share/[imageId]/page.tsx
-import { Metadata } from "next";
+// app/share/[...imageId]/page.tsx
+import type { Metadata } from "next";
 
-interface Props {
-  params: { imageId: string };
-}
+type Props = {
+  params: { imageId: string[] };
+};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { imageId } = params;
-  const imageUrl = decodeURIComponent(imageId);
+export function generateMetadata({ params }: Props): Metadata {
+  // Join all parts of the URL back together and add https:// back
+  const fullImageUrl = "https://" + params.imageId.join("/");
+  const imageUrl = decodeURIComponent(fullImageUrl);
 
   return {
-    title: "Shared Image",
-    description: "Check out this awesome image!",
     metadataBase: new URL("https://jeefx-twitter-test.vercel.app"),
-    openGraph: {
-      title: "Shared Image",
-      description: "Check out this awesome image!",
-      images: [imageUrl],
-    },
-
+    title: "Image Share App",
+    description: "Share your images on Twitter",
     twitter: {
       card: "summary_large_image",
-      title: "Shared Image",
-      description: "Check out this awesome image!",
-      images: [imageUrl],
+      title: "Image Share App",
+      description: "Share your images on Twitter",
       //@ts-ignore
-      image:
-        "https://files.edgestore.dev/rbc73bkph9j8n3nl/publicFiles/_public/5147ae3e-97f2-471a-8407-6876105dbdc2.png",
+      image: imageUrl, // Changed from images array to single image
+    },
+    openGraph: {
+      title: "Image Share App",
+      description: "Share your images on Twitter",
+      images: [imageUrl],
     },
   };
 }
 
 export default function SharePage({ params }: Props) {
-  const imageUrl = decodeURIComponent(params.imageId);
+  const fullImageUrl = "https://" + params.imageId.join("/");
+  const imageUrl = decodeURIComponent(fullImageUrl);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8">
@@ -42,6 +41,9 @@ export default function SharePage({ params }: Props) {
         alt="Shared content"
         className="max-w-2xl rounded-lg shadow-lg"
       />
+      <div className="mt-4 p-4 bg-gray-100 rounded">
+        <p className="text-sm font-mono break-all">Image URL: {imageUrl}</p>
+      </div>
     </div>
   );
 }
