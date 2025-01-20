@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: "Check out this awesome image!",
       images: [imageUrl],
       //@ts-ignore
-      image: [imageUrl],
+      image:
+        "https://files.edgestore.dev/rbc73bkph9j8n3nl/publicFiles/_public/5147ae3e-97f2-471a-8407-6876105dbdc2.png",
     },
   };
 }
